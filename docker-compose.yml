@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: daylog
+      POSTGRES_PASSWORD: daylog
+      POSTGRES_DB: daylog
+    ports:
+      - "5432:5432"
+    volumes:
+      - daylog_pgdata:/var/lib/postgresql/data
+volumes:
+  daylog_pgdata:

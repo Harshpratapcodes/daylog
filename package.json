@@ -1,0 +1,5 @@
+{
+  "name": "daylog",
+  "private": true,
+  "workspaces": ["server", "client"]
+}
