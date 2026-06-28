@@ -6,6 +6,7 @@ import LogScreen from './components/LogScreen';
 import DayReview from './components/DayReview';
 import WeekView from './components/WeekView';
 import Settings from './components/Settings';
+import DatePicker from './components/DatePicker';
 
 type View = 'log' | 'review' | 'week' | 'settings';
 
@@ -34,7 +35,11 @@ export default function MainApp({ onLogout }: { onLogout: () => void }) {
         </nav>
         <div className="date-nav">
           <button className="ghost" onClick={() => setDate(d => addDays(d, view === 'week' ? -7 : -1))} aria-label="Earlier">←</button>
-          <span className="date">{view === 'week' ? `${addDays(date, -6)} → ${date}` : date}</span>
+          <DatePicker
+            value={date}
+            label={view === 'week' ? `${addDays(date, -6)} → ${date}` : date}
+            onChange={setDate}
+          />
           <button className="ghost" onClick={() => setDate(d => addDays(d, view === 'week' ? 7 : 1))} aria-label="Later">→</button>
           {date !== isoDate(new Date()) && (
             <button className="ghost" onClick={() => setDate(isoDate(new Date()))}>today</button>
