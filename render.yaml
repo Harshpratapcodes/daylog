@@ -1,0 +1,22 @@
+# Render blueprint — single web service that serves the API and the built
+# React client from the same origin. Database stays on Neon (set DATABASE_URL
+# in the Render dashboard). See https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: daylog
+    runtime: node
+    plan: free
+    region: virginia # close to Neon's us-east-1
+    # --include=dev: tsx (server runtime) and vite/tsc (client build) are
+    # devDependencies, so they must install even with NODE_ENV=production.
+    buildCommand: npm install --include=dev && npm run build
+    # Migrations are idempotent (tracked in _migrations), safe to run each boot.
+    startCommand: npm run migrate && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # paste your Neon connection string in the dashboard
+      - key: JWT_SECRET
+        generateValue: true # Render generates a secure random value
